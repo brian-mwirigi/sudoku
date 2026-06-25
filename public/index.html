@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neshloves Kim Sudoku</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="cheat-alert-overlay" class="hidden">
+        <div class="alert-box">
+            <h1 id="cheat-message">⚠️ Cheat Detected!</h1>
+            <p>Please stay focused on the game. Screenshots or leaving the window are not allowed!</p>
+            <button id="dismiss-alert">Resume</button>
+        </div>
+    </div>
+
+    <div id="app">
+        <!-- Join Screen -->
+        <div id="join-screen" class="glass-panel active">
+            <h1>Neshloves Kim Sudoku</h1>
+            <p>A real-time competitive Sudoku experience</p>
+            <input type="text" id="player-name" placeholder="Your Name" autocomplete="off">
+            <input type="text" id="room-id" placeholder="Room ID (e.g. neshkim)" autocomplete="off">
+            <button id="join-btn">Join Game</button>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="hidden">
+            <header class="glass-header">
+                <h2>Neshloves Kim Sudoku</h2>
+                <div class="room-info">Room: <span id="display-room"></span></div>
+            </header>
+
+            <main class="game-container">
+                <div class="board-wrapper glass-panel">
+                    <div id="sudoku-board"></div>
+                </div>
+
+                <aside class="sidebar glass-panel">
+                    <h3>Players</h3>
+                    <ul id="players-list">
+                        <!-- Players will be added here -->
+                    </ul>
+                    
+                    <div class="numpad">
+                        <button class="num-btn" data-val="1">1</button>
+                        <button class="num-btn" data-val="2">2</button>
+                        <button class="num-btn" data-val="3">3</button>
+                        <button class="num-btn" data-val="4">4</button>
+                        <button class="num-btn" data-val="5">5</button>
+                        <button class="num-btn" data-val="6">6</button>
+                        <button class="num-btn" data-val="7">7</button>
+                        <button class="num-btn" data-val="8">8</button>
+                        <button class="num-btn" data-val="9">9</button>
+                        <button class="num-btn" data-val="0" id="erase-btn">Erase</button>
+                    </div>
+                </aside>
+            </main>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
