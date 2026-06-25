@@ -161,14 +161,17 @@ io.on('connection', (socket) => {
         const game = games[roomId];
         if (!game || !game.started) return;
 
-        if (game.filledCells[`${r}_${c}`]) {
-            return; // Already filled by someone (or myself) — ignore
+        if (!game.filledCells[`${r}_${c}`]) {
+            game.filledCells[`${r}_${c}`] = { players: [], value: game.solution[r][c] };
+        }
+        if (game.filledCells[`${r}_${c}`].players.includes(socket.id)) {
+            return; // Already filled by THIS player — ignore
         }
 
         const correct = (game.solution[r][c] === value);
 
         if (correct) {
-            game.filledCells[`${r}_${c}`] = { playerId: socket.id, value };
+            game.filledCells[`${r}_${c}`].players.push(socket.id);
             game.players[socket.id].score += 10;
             game.players[socket.id].firsts += 1;
 

@@ -234,7 +234,6 @@ function getCellEl(r, c) {
 }
 
 function selectCell(r, c, cellEl) {
-    if (cellEl.classList.contains('opponent-played')) return;
     boardEl.querySelectorAll('.selected, .highlight-related, .highlight-same').forEach(el => {
         el.classList.remove('selected', 'highlight-related', 'highlight-same');
     });
@@ -271,7 +270,7 @@ numBtns.forEach(btn => {
         if (!selectedCell) return;
         const val = parseInt(btn.dataset.val);
         const { r, c, el } = selectedCell;
-        if (el.classList.contains('given') || el.classList.contains('opponent-played')) return;
+        if (el.classList.contains('given') || el.classList.contains('filled') && !el.classList.contains('opponent-played')) return;
         if (notesMode) { toggleNote(r, c, val); return; }
         socket.emit('playMove', { roomId: currentRoom, r, c, value: val });
     });
@@ -282,7 +281,7 @@ window.addEventListener('keydown', (e) => {
     const { r, c, el } = selectedCell;
 
     if (e.key >= '1' && e.key <= '9') {
-        if (el.classList.contains('given') || el.classList.contains('opponent-played')) return;
+        if (el.classList.contains('given') || el.classList.contains('filled') && !el.classList.contains('opponent-played')) return;
         const val = parseInt(e.key);
         if (notesMode) { toggleNote(r, c, val); return; }
         socket.emit('playMove', { roomId: currentRoom, r, c, value: val });
@@ -340,7 +339,8 @@ eraseAction.addEventListener('click', eraseCell);
 function eraseCell() {
     if (!selectedCell) return;
     const { r, c, el } = selectedCell;
-    if (el.classList.contains('given') || el.classList.contains('opponent-played')) return;
+    if (el.classList.contains('given')) return;
+    if (el.classList.contains('filled') && !el.classList.contains('opponent-played')) return;
     delete cellNotes[`${r}_${c}`];
     el.textContent = '';
     el.classList.remove('input-val', 'filled', 'error-val');
@@ -365,7 +365,7 @@ function updateStatCards() {
                 const mc = document.createElement('div');
                 mc.className = 'stat-mini-cell';
                 const key = `${r}_${c}`;
-                if (filledCells[key] && filledCells[key].playerId === p.id) {
+                if (filledCells[key] && filledCells[key].players && filledCells[key].players.includes(p.id)) {
                     mc.style.background = p.color;
                 } else if (puzzle && puzzle[r][c] !== 0) {
                     mc.style.background = '#e8e8e8';
@@ -496,7 +496,8 @@ socket.on('moveResult', (data) => {
         players[myId].mistakes = (players[myId].mistakes || 0) + 1;
     } else {
         players[myId].firsts = (players[myId].firsts || 0) + 1;
-        filledCells[`${r}_${c}`] = { playerId: myId, value };
+        if (!filledCells[`${r}_${c}`]) filledCells[`${r}_${c}`] = { players: [], value };
+        filledCells[`${r}_${c}`].players.push(myId);
     }
     updateTopBadges();
     scoreDisplay.textContent = players[myId].score;
@@ -529,22 +530,17 @@ socket.on('moveResult', (data) => {
 socket.on('opponentPlayed', (data) => {
     const { r, c, value, playerId, scores } = data;
     players = scores;
-    filledCells[`${r}_${c}`] = { playerId, value };
+    if (!filledCells[`${r}_${c}`]) filledCells[`${r}_${c}`] = { players: [], value };
+    filledCells[`${r}_${c}`].players.push(playerId);
     updateTopBadges();
     scoreDisplay.textContent = players[myId]?.score || 0;
 
     const cellEl = getCellEl(r, c);
-    if (cellEl && !cellEl.classList.contains('given')) {
-        cellEl.classList.add('filled', 'opponent-played');
+    // Only show opponent overlay if I haven't filled it yet
+    if (cellEl && !cellEl.classList.contains('given') && !filledCells[`${r}_${c}`].players.includes(myId)) {
+        cellEl.classList.add('opponent-played');
         cellEl.style.setProperty('--opponent-color', players[playerId]?.color || PLAYER_COLORS[0]);
-        delete cellNotes[`${r}_${c}`];
-        const ng = cellEl.querySelector('.notes-grid');
-        if (ng) ng.remove();
-        cellEl.textContent = '';
-        if (selectedCell && selectedCell.r === r && selectedCell.c === c) {
-            selectedCell.el.classList.remove('selected');
-            selectedCell = null;
-        }
+        // Don't erase text/notes, just add the visual overlay so I can still play it
     }
     updateStatCards();
     checkCompletedNumbers();
