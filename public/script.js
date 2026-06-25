@@ -343,7 +343,7 @@ function eraseCell() {
     if (el.classList.contains('given') || el.classList.contains('opponent-played')) return;
     delete cellNotes[`${r}_${c}`];
     el.textContent = '';
-    el.classList.remove('input-val', 'filled');
+    el.classList.remove('input-val', 'filled', 'error-val');
     const g = el.querySelector('.notes-grid');
     if (g) g.remove();
 }
@@ -482,6 +482,7 @@ socket.on('gameState', (state) => {
     myId = state.myId;
     filledCells = state.filledCells || {};
     cellNotes = {};
+    checkCompletedNumbers();
 });
 
 socket.on('gameStarted', () => {
@@ -495,7 +496,7 @@ socket.on('moveResult', (data) => {
         players[myId].mistakes = (players[myId].mistakes || 0) + 1;
     } else {
         players[myId].firsts = (players[myId].firsts || 0) + 1;
-        filledCells[`${r}_${c}`] = { playerId: myId };
+        filledCells[`${r}_${c}`] = { playerId: myId, value };
     }
     updateTopBadges();
     scoreDisplay.textContent = players[myId].score;
@@ -516,17 +517,19 @@ socket.on('moveResult', (data) => {
         setTimeout(() => cellEl.classList.remove('correct-flash'), 300);
         if (selectedCell && selectedCell.r === r && selectedCell.c === c) selectedCell = null;
         clearRelatedNotes(r, c, value);
+        checkCompletedNumbers();
     } else {
-        cellEl.classList.add('error-flash');
+        cellEl.textContent = value;
+        cellEl.classList.add('error-val', 'error-flash');
         setTimeout(() => cellEl.classList.remove('error-flash'), 500);
     }
     updateStatCards();
 });
 
 socket.on('opponentPlayed', (data) => {
-    const { r, c, playerId, scores } = data;
+    const { r, c, value, playerId, scores } = data;
     players = scores;
-    filledCells[`${r}_${c}`] = { playerId };
+    filledCells[`${r}_${c}`] = { playerId, value };
     updateTopBadges();
     scoreDisplay.textContent = players[myId]?.score || 0;
 
@@ -544,6 +547,7 @@ socket.on('opponentPlayed', (data) => {
         }
     }
     updateStatCards();
+    checkCompletedNumbers();
 });
 
 socket.on('scoreUpdate', (updatedPlayers) => {
@@ -574,6 +578,34 @@ function clearRelatedNotes(r, c, val) {
             cellNotes[key].delete(val);
             const [nr, nc] = key.split('_').map(Number);
             renderNotes(nr, nc);
+        }
+    });
+}
+
+/* ========== NUMBER FADEOUT ========== */
+function checkCompletedNumbers() {
+    if (!puzzle) return;
+    const counts = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0 };
+    
+    for (let r = 0; r < 9; r++) {
+        for (let c = 0; c < 9; c++) {
+            const given = puzzle[r][c];
+            if (given !== 0) counts[given]++;
+            else {
+                const filled = filledCells[`${r}_${c}`];
+                if (filled && filled.value) {
+                    counts[filled.value]++;
+                }
+            }
+        }
+    }
+    
+    numBtns.forEach(btn => {
+        const val = parseInt(btn.dataset.val);
+        if (counts[val] === 9) {
+            btn.classList.add('fade-out');
+        } else {
+            btn.classList.remove('fade-out');
         }
     });
 }

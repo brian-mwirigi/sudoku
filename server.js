@@ -161,10 +161,14 @@ io.on('connection', (socket) => {
         const game = games[roomId];
         if (!game || !game.started) return;
 
+        if (game.filledCells[`${r}_${c}`]) {
+            return; // Already filled by someone (or myself) — ignore
+        }
+
         const correct = (game.solution[r][c] === value);
 
-        if (correct && !game.filledCells[`${r}_${c}`]) {
-            game.filledCells[`${r}_${c}`] = { playerId: socket.id };
+        if (correct) {
+            game.filledCells[`${r}_${c}`] = { playerId: socket.id, value };
             game.players[socket.id].score += 10;
             game.players[socket.id].firsts += 1;
 
@@ -174,11 +178,11 @@ io.on('connection', (socket) => {
             });
 
             socket.to(roomId).emit('opponentPlayed', {
-                r, c,
+                r, c, value,
                 playerId: socket.id,
                 scores: game.players
             });
-        } else if (!correct) {
+        } else {
             game.players[socket.id].score = Math.max(0, game.players[socket.id].score - 5);
             game.players[socket.id].mistakes += 1;
             socket.emit('moveResult', {
@@ -187,7 +191,6 @@ io.on('connection', (socket) => {
             });
             socket.to(roomId).emit('scoreUpdate', game.players);
         }
-        // Already filled by someone — ignore
     });
 
     /* -- Cheat Detection -- */

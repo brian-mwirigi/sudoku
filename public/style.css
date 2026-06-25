@@ -396,6 +396,7 @@ body {
 
 /* Player-colored filled cells */
 .cell.input-val { font-weight: 700; }
+.cell.error-val { color: var(--error) !important; font-weight: 700; }
 
 .cell.error-flash {
     animation: shake 0.35s ease;
@@ -487,10 +488,15 @@ body {
     box-shadow: var(--shadow-sm);
     font-family: inherit;
     padding: 0; width: auto;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 .num-btn:hover { background: var(--accent-light); }
 .num-btn:active { transform: scale(0.9); background: var(--accent-light); }
-.num-btn.completed { opacity: 0.25; pointer-events: none; }
+.num-btn.fade-out {
+    opacity: 0.15;
+    pointer-events: none;
+}
 
 /* Player stats cards */
 #player-stats-cards {

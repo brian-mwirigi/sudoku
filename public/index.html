@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Neshloves Kim Sudoku</title>
+    <title>Neshloves Kim Sudoku very muchhhhh</title>
     <meta name="description" content="Competitive multiplayer Sudoku — race your friends to fill the board!">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <!-- Cheat Alert Overlay -->
     <div id="cheat-overlay" class="overlay hidden">
@@ -30,18 +35,23 @@
             <div class="join-card">
                 <div class="join-icon-wrap">
                     <svg class="join-illustration" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="60" cy="60" r="55" fill="#eaf1f7"/>
-                        <rect x="30" y="30" width="60" height="60" rx="6" fill="#fff" stroke="#c5d3de" stroke-width="2"/>
-                        <line x1="50" y1="30" x2="50" y2="90" stroke="#c5d3de" stroke-width="1.5"/>
-                        <line x1="70" y1="30" x2="70" y2="90" stroke="#c5d3de" stroke-width="1.5"/>
-                        <line x1="30" y1="50" x2="90" y2="50" stroke="#c5d3de" stroke-width="1.5"/>
-                        <line x1="30" y1="70" x2="90" y2="70" stroke="#c5d3de" stroke-width="1.5"/>
-                        <text x="40" y="46" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#5cb3c9">5</text>
-                        <text x="60" y="46" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#2c3e50">3</text>
-                        <text x="80" y="66" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#2c3e50">9</text>
-                        <text x="40" y="86" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#e8837c">7</text>
-                        <circle cx="95" cy="25" r="10" fill="#5cb3c9" opacity="0.25"/>
-                        <circle cx="25" cy="95" r="8" fill="#e8837c" opacity="0.20"/>
+                        <circle cx="60" cy="60" r="55" fill="#eaf1f7" />
+                        <rect x="30" y="30" width="60" height="60" rx="6" fill="#fff" stroke="#c5d3de"
+                            stroke-width="2" />
+                        <line x1="50" y1="30" x2="50" y2="90" stroke="#c5d3de" stroke-width="1.5" />
+                        <line x1="70" y1="30" x2="70" y2="90" stroke="#c5d3de" stroke-width="1.5" />
+                        <line x1="30" y1="50" x2="90" y2="50" stroke="#c5d3de" stroke-width="1.5" />
+                        <line x1="30" y1="70" x2="90" y2="70" stroke="#c5d3de" stroke-width="1.5" />
+                        <text x="40" y="46" font-family="Inter,sans-serif" font-size="12" font-weight="700"
+                            fill="#5cb3c9">5</text>
+                        <text x="60" y="46" font-family="Inter,sans-serif" font-size="12" font-weight="700"
+                            fill="#2c3e50">3</text>
+                        <text x="80" y="66" font-family="Inter,sans-serif" font-size="12" font-weight="700"
+                            fill="#2c3e50">9</text>
+                        <text x="40" y="86" font-family="Inter,sans-serif" font-size="12" font-weight="700"
+                            fill="#e8837c">7</text>
+                        <circle cx="95" cy="25" r="10" fill="#5cb3c9" opacity="0.25" />
+                        <circle cx="25" cy="95" r="8" fill="#e8837c" opacity="0.20" />
                     </svg>
                 </div>
                 <h1 class="join-title">Neshloves Kim <span>Sudoku</span></h1>
@@ -53,7 +63,8 @@
                     </div>
                     <div class="input-group">
                         <span class="material-symbols-rounded input-ico">meeting_room</span>
-                        <input type="text" id="room-id" placeholder="Room code (e.g. MBNM)" autocomplete="off" maxlength="12">
+                        <input type="text" id="room-id" placeholder="Room code (e.g. MBNM)" autocomplete="off"
+                            maxlength="12">
                     </div>
                     <button class="btn-primary" id="join-btn">
                         <span>Join Room</span>
@@ -68,25 +79,26 @@
             <div class="lobby-hero">
                 <svg class="lobby-illustration" viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <!-- Person on bike -->
-                    <circle cx="70" cy="105" r="18" fill="none" stroke="#c5d3de" stroke-width="2.5"/>
-                    <circle cx="130" cy="105" r="18" fill="none" stroke="#c5d3de" stroke-width="2.5"/>
-                    <line x1="70" y1="105" x2="100" y2="65" stroke="#c5d3de" stroke-width="2.5"/>
-                    <line x1="100" y1="65" x2="130" y2="105" stroke="#c5d3de" stroke-width="2.5"/>
-                    <line x1="100" y1="65" x2="100" y2="45" stroke="#2c3e50" stroke-width="2.5"/>
-                    <circle cx="100" cy="38" r="8" fill="#eaf1f7" stroke="#2c3e50" stroke-width="2"/>
-                    <line x1="100" y1="53" x2="85" y2="78" stroke="#2c3e50" stroke-width="2"/>
-                    <line x1="100" y1="53" x2="115" y2="75" stroke="#2c3e50" stroke-width="2"/>
+                    <circle cx="70" cy="105" r="18" fill="none" stroke="#c5d3de" stroke-width="2.5" />
+                    <circle cx="130" cy="105" r="18" fill="none" stroke="#c5d3de" stroke-width="2.5" />
+                    <line x1="70" y1="105" x2="100" y2="65" stroke="#c5d3de" stroke-width="2.5" />
+                    <line x1="100" y1="65" x2="130" y2="105" stroke="#c5d3de" stroke-width="2.5" />
+                    <line x1="100" y1="65" x2="100" y2="45" stroke="#2c3e50" stroke-width="2.5" />
+                    <circle cx="100" cy="38" r="8" fill="#eaf1f7" stroke="#2c3e50" stroke-width="2" />
+                    <line x1="100" y1="53" x2="85" y2="78" stroke="#2c3e50" stroke-width="2" />
+                    <line x1="100" y1="53" x2="115" y2="75" stroke="#2c3e50" stroke-width="2" />
                     <!-- Map pin -->
                     <g transform="translate(118, 15)">
-                        <path d="M8 0C3.6 0 0 3.6 0 8c0 6 8 14 8 14s8-8 8-14c0-4.4-3.6-8-8-8z" fill="#5cb3c9"/>
-                        <circle cx="8" cy="8" r="3" fill="#fff"/>
+                        <path d="M8 0C3.6 0 0 3.6 0 8c0 6 8 14 8 14s8-8 8-14c0-4.4-3.6-8-8-8z" fill="#5cb3c9" />
+                        <circle cx="8" cy="8" r="3" fill="#fff" />
                     </g>
                 </svg>
                 <div class="lobby-player-badge">
                     <div class="badge-dot" id="lobby-my-color"></div>
                     <div class="badge-text">
                         <strong id="lobby-my-name">Player</strong>
-                        <span class="lobby-flavor">Hang tight! You'll be racing the clock to fill some blocks in no time!</span>
+                        <span class="lobby-flavor">Hang tight! You'll be racing the clock to fill some blocks in no
+                            time!</span>
                     </div>
                 </div>
             </div>
@@ -183,13 +195,15 @@
             <div id="chat-panel" class="panel hidden">
                 <div class="panel-header">
                     <span>Chat</span>
-                    <button class="icon-btn" id="close-chat"><span class="material-symbols-rounded">close</span></button>
+                    <button class="icon-btn" id="close-chat"><span
+                            class="material-symbols-rounded">close</span></button>
                 </div>
                 <div class="panel-body">
                     <div id="chat-messages"></div>
                     <div class="chat-input-row">
                         <input type="text" id="chat-input" placeholder="Type a message..." autocomplete="off">
-                        <button class="icon-btn send-btn" id="send-chat"><span class="material-symbols-rounded">send</span></button>
+                        <button class="icon-btn send-btn" id="send-chat"><span
+                                class="material-symbols-rounded">send</span></button>
                     </div>
                 </div>
             </div>
@@ -199,4 +213,5 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
